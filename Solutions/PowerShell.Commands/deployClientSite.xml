@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Deployment
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="install.xsd">
+  <CollectUlsOnError Enabled="true" />
+  <Logging Enabled="true" />
+  <DeploymentSteps>
+    <SetVariables>
+      <!--
+      <Prompt Title="Variables" Message="Enter Environment Variables">
+        <Param Name="SP Url"/>
+      </Prompt>
+      -->
+	  <Script VariableName="Client Name"><![CDATA[ return $scriptArgs[0]; ]]></Script>
+	  <Script VariableName="Client Url"><![CDATA[ return $scriptArgs[1]; ]]></Script>
+      <Variable VariableName="SP Url">https://bluemetal.sharepoint.com/sites/clientsandprojects</Variable>
+      <Variable VariableName="New Web Url">${SP Url}/${Client Url}</Variable>
+      <Credential VariableName="Login" UserName="markc@bluemetal.onmicrosoft.com" Password="b@rr1cade" />
+    </SetVariables>
+    <Connect Url="${SP Url}" Credentials="${Login}" />
+	
+    <CreateWeb Title="${Client Name}" Url="${New Web Url}" Description="${Client Name} Client Site" Template="PROJECTSITE#0" />
+    <ApplyWebTemplate Url="${New Web Url}" TemplatePath="clientTemplate.xml" />
+	
+	<RemoveWebPart WebUrl="${New Web Url}" PageUrl="default.aspx" Title="Get Started" />
+	<RemoveWebPart WebUrl="${New Web Url}" PageUrl="default.aspx" Title="Project Summary" />
+	<RemoveWebPart WebUrl="${New Web Url}" PageUrl="default.aspx" Title="Site Feed" />
+	<AddWebPart WebUrl="${New Web Url}" PageUrl="default.aspx" ZoneID="Left" ZoneIndex="1">
+		<WebPart xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/WebPart/v2">
+		  <Title>Client Summary</Title>
+		  <ZoneID>Left</ZoneID>
+		  <PartOrder>1</PartOrder>
+		  <Assembly>Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c</Assembly>
+		  <TypeName>Microsoft.SharePoint.WebPartPages.ContentEditorWebPart</TypeName>
+		  <ContentLink xmlns="http://schemas.microsoft.com/WebPart/v2/ContentEditor">/sites/clientsandprojects/Style Library/BlueMetal/WebParts/ClientSummary2.html</ContentLink>
+		</WebPart>
+	</AddWebPart>
+	<AddWebPart WebUrl="${New Web Url}" PageUrl="default.aspx" ZoneID="Left" ZoneIndex="2">
+		<WebPart xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/WebPart/v2">
+		  <Title>Active Projects</Title>
+		  <ZoneID>Left</ZoneID>
+		  <PartOrder>2</PartOrder>
+		  <Assembly>Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c</Assembly>
+		  <TypeName>Microsoft.SharePoint.WebPartPages.ContentEditorWebPart</TypeName>
+		  <ContentLink xmlns="http://schemas.microsoft.com/WebPart/v2/ContentEditor">/sites/clientsandprojects/Style Library/BlueMetal/WebParts/ActiveProjects.html</ContentLink>
+		</WebPart>
+	</AddWebPart>
+  </DeploymentSteps>
+</Deployment>

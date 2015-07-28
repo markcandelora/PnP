@@ -194,6 +194,7 @@
     <Compile Include="Fields\AddField.cs" />
     <Compile Include="Lists\AddView.cs" />
     <Compile Include="Lists\GetListItem.cs" />
+    <Compile Include="Lists\NewListItem.cs" />
     <Compile Include="Lists\SetDefaultColumnValues.cs" />
     <Compile Include="Lists\GetView.cs" />
     <Compile Include="Lists\RemoveView.cs" />
