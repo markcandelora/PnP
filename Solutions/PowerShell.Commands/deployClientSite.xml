@@ -6,16 +6,17 @@
   <Logging Enabled="true" />
   <DeploymentSteps>
     <SetVariables>
-      <!--
+	  <!--
       <Prompt Title="Variables" Message="Enter Environment Variables">
-        <Param Name="SP Url"/>
+        <Param Name="Client Name"/>
+        <Param Name="Client Url"/>
       </Prompt>
-      -->
+	  -->
 	  <Script VariableName="Client Name"><![CDATA[ return $scriptArgs[0]; ]]></Script>
 	  <Script VariableName="Client Url"><![CDATA[ return $scriptArgs[1]; ]]></Script>
       <Variable VariableName="SP Url">https://bluemetal.sharepoint.com/sites/clientsandprojects</Variable>
       <Variable VariableName="New Web Url">${SP Url}/${Client Url}</Variable>
-      <Credential VariableName="Login" UserName="markc@bluemetal.onmicrosoft.com" Password="b@rr1cade" />
+      <Credential VariableName="Login" />
     </SetVariables>
     <Connect Url="${SP Url}" Credentials="${Login}" />
 	
